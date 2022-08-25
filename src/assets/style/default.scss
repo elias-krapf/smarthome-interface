@@ -1,0 +1,22 @@
+@import "agent/agent";
+@import "font/font";
+@import "grid/grid";
+@import "component/component";
+@import "effect/effect";
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css");
+
+:root {
+  --primary: #6d282d;
+  --secondary: #627584;
+  --third: #9ea6b0;
+}
+
+*{
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body{
+  overflow-y: hidden;
+}
