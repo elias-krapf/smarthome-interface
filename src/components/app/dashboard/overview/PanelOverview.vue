@@ -1,12 +1,15 @@
 <template>
   <div class="dashboard overview">
-asdf
+asdfasdf
   </div>
 </template>
 
 <script>
 export default {
-  name: "PanelOverview"
+  name: "PanelOverview",
+  mounted() {
+
+  }
 }
 </script>
 

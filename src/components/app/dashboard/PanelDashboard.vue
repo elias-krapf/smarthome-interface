@@ -7,17 +7,22 @@
       <div class="container-fluid mt-1">
         <router-view />
       </div>
+      <div class="notifications">
+        <PanelNotification />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import AppSidebar from "@/components/app/dashboard/sidebar/AppSidebar";
+import PanelNotification from "@/components/app/dashboard/notification/PanelNotification";
 
 export default {
   name: "PanelDashboard",
   components: {
-    AppSidebar
+    AppSidebar,
+    PanelNotification
   }
 }
 </script>
@@ -44,7 +49,16 @@ export default {
       top: 0;
       bottom: 0;
       right: 0;
-      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+    //  background: linear-gradient(to bottom, var(--primary), var(--secondary));
+
+      div.notifications{
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 400px;
+
+      }
+
     }
 
   }
