@@ -23,13 +23,46 @@
           2:04
         </div>
       </div>
+      <div class="col-12 mt-2">
+        <div class="container-fluid" style="font-size: 24px">
+          <div class="row d-flex justify-content-center">
+            <div class="col-2 d-flex justify-content-center">
+              <i class="bi bi-shuffle"></i>
+            </div>
+            <div class="col-2 d-flex justify-content-center" style="margin-left: 30px">
+              <i class="bi bi-caret-left"></i>
+            </div>
+            <div class="col-2 d-flex justify-content-center">
+              <i class="bi bi-pause"></i>
+            </div>
+            <div class="col-2 d-flex justify-content-center" style="margin-right: 30px">
+              <i class="bi bi-caret-right"></i>
+            </div>
+            <div class="col-2 d-flex justify-content-center">
+              <i class="bi bi-arrow-repeat"></i>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "MusicTrack"
+  name: "MusicTrack",
+  mounted() {
+    setInterval(() => {
+      const Http = new XMLHttpRequest();
+      const url='http://localhost:8089/';
+      Http.open("GET", url);
+      Http.send();
+
+      Http.onreadystatechange = () => {
+        console.log(Http.responseText)
+      }
+    }, 2000);
+  }
 }
 </script>
 
@@ -84,7 +117,6 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 
 div.track-time {
   font-size: 12px;
-
 
 
   &.current {
