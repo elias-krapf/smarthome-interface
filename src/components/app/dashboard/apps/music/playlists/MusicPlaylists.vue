@@ -8,13 +8,14 @@
         <i class="bi bi-search"></i>
       </div>
     </div>
-    <div class="row">
+    <div class="row" style="overflow-y: auto; max-height: 700px">
       <div class="col-12">
         <div class="playlist d-flex mt-1" v-for="playlist in playlists" :key="playlist">
-          <img :src="playlist.img" :alt="playlists.img">
+          <img v-if="playlist.images[0] !== undefined" :src="playlist.images[0].url" :alt="playlists.img">
+          <img src="@/assets/images/apps/music/nopic.jpg" alt="no-picture" v-else>
           <div class="info">
-            <div class="pl-title">{{ playlist.title }}</div>
-            <div class="pl-subtitle">{{ playlist.subtitle }}</div>
+            <div class="pl-title">{{ playlist.name }}</div>
+            <div class="pl-subtitle">{{ playlist.description }}</div>
           </div>
         </div>
       </div>
@@ -25,21 +26,17 @@
 <script>
 export default {
   name: "MusicPlaylists",
+  mounted() {
+    const Http = new XMLHttpRequest();
+    const url = 'http://localhost:8089/apps/app/spotify/get_authenticate_users_playlists';
+    Http.open("GET", url, false);
+    Http.send();
+    this.playlists = JSON.parse(Http.responseText);
+    console.log(this.playlists)
+  },
   data() {
     return {
-      playlists: [
-        {
-          img: '@/assets/images/x.jpeg',
-          title: 'Cool & Fresh',
-          subtitle: 'Album - Julian Bam',
-        },
-        {
-          img: '@/assets/images/x.jpeg',
-          title: 'Programmieren',
-          subtitle: 'Playlist - Ekrapf',
-        }
-
-      ]
+      playlists: []
     }
   }
 }
@@ -73,6 +70,11 @@ div.playlist {
     margin-left: 5px;
     margin-top: 2px;
     color: white;
+
+    width: 900%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     div.pl-subtitle {
       color: #d2d2d2;

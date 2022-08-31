@@ -106,7 +106,7 @@ export default {
       let duration = item['duration_ms'];
       return this.timeConvert(duration / 1000 / 60);
     },
-    getTimeProgress(){
+    getTimeProgress() {
       if (this.track === null) {
         return 0;
       }
@@ -131,7 +131,7 @@ export default {
   mounted() {
     setInterval(() => {
       const Http = new XMLHttpRequest();
-      const url = 'http://localhost:8089/';
+      const url = 'http://localhost:8089/apps/app/spotify/get_current_track';
       Http.open("GET", url, false);
       Http.send();
       this.track = JSON.parse(Http.responseText);
