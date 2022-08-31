@@ -2,25 +2,25 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12 d-flex justify-content-center mt-2">
-        <img src="@/assets/images/x.jpeg" alt="">
+        <img :src="getTrackImage" alt="">
       </div>
       <div class="col-12 mt-2">
-        <div class="title">Love Grows (Where My Roesemary Goes)</div>
+        <div class="title"> {{ getTrackTitle }}</div>
       </div>
       <div class="col-12">
         <div class="subtitle">
-          Edison Lighthouse
+          {{ getTrackArtists }}
         </div>
       </div>
       <div class="col-12">
-        <input type="range" min="0" max="100">
+        <input type="range" min="0" max="100" :value="getTimeProgress">
       </div>
       <div class="col-12 d-flex">
         <div class="track-time current">
-          1:03
+          {{ getDurationTime }}
         </div>
         <div class="track-time">
-          2:04
+          {{ getProgressTime }}
         </div>
       </div>
       <div class="col-12 mt-2">
@@ -51,17 +51,92 @@
 <script>
 export default {
   name: "MusicTrack",
+  data() {
+    return {
+      track: null,
+    }
+  },
+  computed: {
+    getTrackImage() {
+      if (this.track === null) {
+        return '-';
+      }
+
+      let item = this.track['item'];
+      let album = item['album'];
+      let images = album['images'];
+      return images[0]['url'];
+    },
+    getTrackTitle() {
+      if (this.track === null) {
+        return '-';
+      }
+
+      let item = this.track['item'];
+      return item['name'];
+    },
+    getTrackArtists() {
+      if (this.track === null) {
+        return '-';
+      }
+
+      let artistNames = [];
+      let item = this.track['item'];
+      let artists = item['artists'];
+      artists.forEach(artist => {
+        artistNames.push(artist.name);
+      });
+
+      return artistNames.join(", ");
+    },
+    getProgressTime() {
+      if (this.track === null) {
+        return '-';
+      }
+
+      let progress = this.track['progress_ms'];
+      return this.timeConvert(progress / 1000 / 60);
+
+    },
+    getDurationTime() {
+      if (this.track === null) {
+        return '-';
+      }
+      let item = this.track['item'];
+      let duration = item['duration_ms'];
+      return this.timeConvert(duration / 1000 / 60);
+    },
+    getTimeProgress(){
+      if (this.track === null) {
+        return 0;
+      }
+
+      let item = this.track['item'];
+      let duration = item['duration_ms'];
+      let progress = this.track['progress_ms'];
+
+      let dSec = Number(duration) / 1000;
+      let pSec = Number(progress) / 1000;
+      return Math.round(pSec / (dSec / 100));
+    }
+  },
+  methods: {
+    timeConvert(minutes) {
+      let sign = minutes < 0 ? "-" : "";
+      let min = Math.floor(Math.abs(minutes));
+      let sec = Math.floor((Math.abs(minutes) * 60) % 60);
+      return sign + (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
+    }
+  },
   mounted() {
     setInterval(() => {
       const Http = new XMLHttpRequest();
-      const url='http://localhost:8089/';
-      Http.open("GET", url);
+      const url = 'http://localhost:8089/';
+      Http.open("GET", url, false);
       Http.send();
-
-      Http.onreadystatechange = () => {
-        console.log(Http.responseText)
-      }
-    }, 2000);
+      this.track = JSON.parse(Http.responseText);
+      console.log(this.track)
+    }, 1000);
   }
 }
 </script>
@@ -86,6 +161,7 @@ input {
 }
 
 input[type=range] {
+  transition: 1s !important;
   -webkit-appearance: none;
 }
 
