@@ -26,19 +26,7 @@
 <script>
 export default {
   name: "MusicPlaylists",
-  mounted() {
-    const Http = new XMLHttpRequest();
-    const url = 'http://localhost:8089/apps/app/spotify/get_authenticate_users_playlists';
-    Http.open("GET", url, false);
-    Http.send();
-    this.playlists = JSON.parse(Http.responseText);
-    console.log(this.playlists)
-  },
-  data() {
-    return {
-      playlists: []
-    }
-  }
+  props: ['playlists'],
 }
 </script>
 
@@ -55,7 +43,6 @@ div.search {
 }
 
 div.playlist {
-  background: var(--secondary);
   border-radius: 5px;
   height: 54px;
   width: 100%;
@@ -69,15 +56,15 @@ div.playlist {
   div.info {
     margin-left: 5px;
     margin-top: 2px;
-    color: white;
+    color: #2c2c2c;
 
-    width: 900%;
+    width: 81%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 
     div.pl-subtitle {
-      color: #d2d2d2;
+      color: #565656;
     }
   }
 }

@@ -51,11 +51,7 @@
 <script>
 export default {
   name: "MusicTrack",
-  data() {
-    return {
-      track: null,
-    }
-  },
+  props: ['track'],
   computed: {
     getTrackImage() {
       if (this.track === null) {
@@ -128,16 +124,6 @@ export default {
       return sign + (min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec;
     }
   },
-  mounted() {
-    setInterval(() => {
-      const Http = new XMLHttpRequest();
-      const url = 'http://localhost:8089/apps/app/spotify/get_current_track';
-      Http.open("GET", url, false);
-      Http.send();
-      this.track = JSON.parse(Http.responseText);
-      console.log(this.track)
-    }, 1000);
-  }
 }
 </script>
 
